@@ -1,0 +1,168 @@
+<section class="admin-roles">
+  <div class="container-fluid">
+    <!-- Header -->
+    <div class="page-header">
+      <div class="block-header">
+        <app-breadcrumb
+          [title]="'Gestion des Rôles'"
+          [items]="['Dashboard']"
+          [active_item]="'Rôles'"
+        >
+        </app-breadcrumb>
+      </div>
+    </div>
+
+    <!-- Statistiques des rôles -->
+    <div class="row stats-row">
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-card total-roles">
+          <div class="card-icon">
+            <mat-icon>admin_panel_settings</mat-icon>
+          </div>
+          <div class="card-content">
+            <h3>{{ totalRoles }}</h3>
+            <p>Total Rôles</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-card active-roles">
+          <div class="card-icon">
+            <mat-icon>verified_user</mat-icon>
+          </div>
+          <div class="card-content">
+            <h3>{{ activeRoles }}</h3>
+            <p>Rôles Actifs</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-card permissions">
+          <div class="card-icon">
+            <mat-icon>security</mat-icon>
+          </div>
+          <div class="card-content">
+            <h3>{{ totalPermissions }}</h3>
+            <p>Permissions</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6">
+        <div class="action-card">
+          <button mat-raised-button color="primary" (click)="openAddRoleDialog()">
+            <mat-icon>add_circle</mat-icon>
+            Ajouter Rôle
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cartes des rôles -->
+    <div class="row roles-grid">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let role of roles">
+        <div class="role-card" [ngClass]="getRoleCardClass(role.name)">
+          <div class="role-header">
+            <div class="role-icon">
+              <mat-icon>{{ getRoleIcon(role.name) }}</mat-icon>
+            </div>
+            <div class="role-info">
+              <h4>{{ role.displayName }}</h4>
+              <p>{{ role.description }}</p>
+            </div>
+            <div class="role-actions">
+              <button mat-icon-button (click)="editRole(role)" matTooltip="Modifier">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteRole(role)" matTooltip="Supprimer" 
+                      [disabled]="role.name === 'ADMIN'">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          
+          <div class="role-stats">
+            <div class="stat-item">
+              <span class="stat-number">{{ role.userCount }}</span>
+              <span class="stat-label">Utilisateurs</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">{{ role.permissions.length }}</span>
+              <span class="stat-label">Permissions</span>
+            </div>
+          </div>
+          
+          <div class="role-permissions">
+            <h5>Permissions principales :</h5>
+            <div class="permissions-list">
+              <span class="permission-chip" *ngFor="let permission of role.permissions.slice(0, 3)">
+                {{ getPermissionLabel(permission) }}
+              </span>
+              <span class="more-permissions" *ngIf="role.permissions.length > 3">
+                +{{ role.permissions.length - 3 }} autres
+              </span>
+            </div>
+          </div>
+          
+          <div class="role-footer">
+            <span class="role-status" [ngClass]="role.active ? 'active' : 'inactive'">
+              <mat-icon>{{ role.active ? 'check_circle' : 'cancel' }}</mat-icon>
+              {{ role.active ? 'Actif' : 'Inactif' }}
+            </span>
+            <button mat-button color="primary" (click)="viewRoleDetails(role)">
+              Voir détails
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tableau des permissions -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="permissions-table-card">
+          <div class="table-header">
+            <h4>Matrice des Permissions</h4>
+            <div class="header-actions">
+              <mat-form-field appearance="outline" class="search-field">
+                <mat-label>Rechercher permission</mat-label>
+                <input matInput (keyup)="applyPermissionFilter($event)" placeholder="Nom de permission..." #input>
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <div class="table-body">
+            <table mat-table [dataSource]="permissionsDataSource" class="permissions-table">
+              <ng-container matColumnDef="permission">
+                <th mat-header-cell *matHeaderCellDef>Permission</th>
+                <td mat-cell *matCellDef="let permission">
+                  <div class="permission-info">
+                    <strong>{{ getPermissionLabel(permission.name) }}</strong>
+                    <small>{{ permission.description }}</small>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="admin" *ngFor="let role of roles">
+                <th mat-header-cell *matHeaderCellDef>{{ role.displayName }}</th>
+                <td mat-cell *matCellDef="let permission">
+                  <mat-checkbox 
+                    [checked]="hasPermission(role.name, permission.name)"
+                    (change)="togglePermission(role.name, permission.name, $event.checked)"
+                    [disabled]="role.name === 'ADMIN'">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="permissionColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: permissionColumns"></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,116 @@
+<div class="form-container">
+  <!-- Titre centré -->
+  <h2 class="form-title">Ajout d'un courrier</h2>
+  
+  <form [formGroup]="advanceTableForm" class="courrier-form">
+    
+    <!-- Ligne 1: Date arrivée et Nbre de fichiers -->
+    <div class="form-row">
+      <div class="form-field">
+        <label class="field-label">Date arrivée</label>
+        <div class="input-wrapper">
+          <i class="field-icon">📅</i>
+          <input type="date" formControlName="dateArrivee" class="form-input" required>
+        </div>
+        <div class="error-msg" *ngIf="advanceTableForm.get('dateArrivee')?.hasError('required') && advanceTableForm.get('dateArrivee')?.touched">
+          La date d'arrivée est requise
+        </div>
+      </div>
+      
+      <div class="form-field">
+        <label class="field-label">Nbre de fichiers</label>
+        <div class="input-wrapper">
+          <i class="field-icon">📄</i>
+          <input type="text" formControlName="nbreFichiers" class="form-input" [value]="selectedFiles?.length || 0" readonly>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ligne 2: Expéditeur et Type de courrier -->
+    <div class="form-row">
+      <div class="form-field">
+        <label class="field-label">Expéditeur</label>
+        <div class="input-wrapper">
+          <i class="field-icon">👤</i>
+          <input type="text" formControlName="expediteur" class="form-input" placeholder="Nom de l'expéditeur" required>
+        </div>
+        <div class="error-msg" *ngIf="advanceTableForm.get('expediteur')?.hasError('required') && advanceTableForm.get('expediteur')?.touched">
+          L'expéditeur est requis
+        </div>
+      </div>
+      
+      <div class="form-field">
+        <label class="field-label">Type de courrier</label>
+        <div class="input-wrapper">
+          <i class="field-icon">✉️</i>
+          <select formControlName="niveauConfidentiel" class="form-input" required>
+            <option value="">Sélectionner le type</option>
+            <option value="ORDINAIRE">ORDINAIRE</option>
+            <option value="CONFIDENTIEL">CONFIDENTIEL</option>
+          </select>
+        </div>
+        <div class="error-msg" *ngIf="advanceTableForm.get('niveauConfidentiel')?.hasError('required') && advanceTableForm.get('niveauConfidentiel')?.touched">
+          Le type de courrier est requis
+        </div>
+      </div>
+    </div>
+
+    <!-- Ligne 3: Objet -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label class="field-label">Objet</label>
+        <div class="input-wrapper">
+          <input type="text" formControlName="objet" class="form-input" placeholder="L'objet du courrier" required>
+        </div>
+        <div class="error-msg" *ngIf="advanceTableForm.get('objet')?.hasError('required') && advanceTableForm.get('objet')?.touched">
+          L'objet est requis
+        </div>
+      </div>
+    </div>
+
+    <!-- Ligne 4: Zone de drag & drop -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label class="field-label">Importer vos fichiers</label>
+        <div class="dropzone" 
+             (dragover)="onDragOver($event)" 
+             (dragleave)="onDragLeave($event)" 
+             (drop)="onDrop($event)"
+             (click)="fileInput.click()">
+          <p class="drop-text">Glisser déposer vos fichiers ou Parcourir</p>
+          <button type="button" class="browse-btn" (click)="$event.stopPropagation(); fileInput.click()">
+            Parcourir
+          </button>
+          <input #fileInput type="file" style="display: none" (change)="onFileSelected($event)" 
+                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple>
+        </div>
+        
+        <!-- Liste des fichiers sélectionnés -->
+        <div class="files-preview" *ngIf="selectedFiles && selectedFiles.length > 0">
+          <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
+            <span class="file-name">{{ file.name }}</span>
+            <button type="button" class="remove-btn" (click)="removeFile(i)">×</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ligne 5: Boutons -->
+    <div class="form-row">
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="onNoClick()">
+          Annuler
+        </button>
+        <button type="button" class="btn-primary" [disabled]="!advanceTableForm.valid" 
+                [mat-dialog-close]="1" (click)="confirmAdd()">
+          {{ action === 'edit' ? 'Modifier' : 'Ajouter' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Champs cachés -->
+    <input type="hidden" formControlName="reference">
+    <input type="hidden" formControlName="statutCourrier">
+    <input type="hidden" formControlName="fichier_joint">
+  </form>
+</div>

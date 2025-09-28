@@ -1,0 +1,363 @@
+// Couleurs E-Courrier
+$primary-blue: #2563eb;
+$light-blue: #3b82f6;
+$success-green: #10b981;
+$danger-red: #ef4444;
+$warning-orange: #f59e0b;
+$gray-light: #f8fafc;
+$gray-medium: #64748b;
+$white: #ffffff;
+
+.admin-users {
+  background-color: $gray-light;
+  min-height: 100vh;
+  padding: 20px 0;
+
+  .page-header {
+    margin-bottom: 30px;
+    
+    .block-header {
+      background: $white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+    }
+  }
+
+  .stats-row {
+    margin-bottom: 30px;
+    
+    .stats-card {
+      background: $white;
+      border-radius: 16px;
+      padding: 25px 20px;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+      }
+      
+      .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        mat-icon {
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+          color: $white;
+        }
+      }
+      
+      .card-content {
+        flex: 1;
+        
+        h3 {
+          font-size: 2rem;
+          font-weight: 700;
+          margin: 0 0 5px 0;
+          color: $primary-blue;
+        }
+        
+        p {
+          font-size: 0.9rem;
+          color: $gray-medium;
+          margin: 0;
+          font-weight: 500;
+        }
+      }
+      
+      &.total-users .card-icon {
+        background: linear-gradient(135deg, $primary-blue 0%, $light-blue 100%);
+      }
+      
+      &.active-users .card-icon {
+        background: linear-gradient(135deg, $success-green 0%, #059669 100%);
+      }
+      
+      &.inactive-users .card-icon {
+        background: linear-gradient(135deg, $danger-red 0%, #dc2626 100%);
+      }
+    }
+    
+    .action-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      button {
+        padding: 15px 25px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        
+        mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+
+  .users-table-card {
+    background: $white;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
+    overflow: hidden;
+    
+    .table-header {
+      background: linear-gradient(135deg, $primary-blue 0%, $light-blue 100%);
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      
+      h4 {
+        color: $white;
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin: 0;
+      }
+      
+      .header-actions {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        
+        .search-field,
+        .filter-field {
+          width: 250px;
+          
+          ::ng-deep .mat-form-field-wrapper {
+            padding-bottom: 0;
+          }
+          
+          ::ng-deep .mat-form-field-outline {
+            color: rgba(255, 255, 255, 0.7);
+          }
+          
+          ::ng-deep .mat-form-field-outline-thick {
+            color: $white;
+          }
+          
+          ::ng-deep .mat-form-field-label {
+            color: rgba(255, 255, 255, 0.9);
+          }
+          
+          ::ng-deep .mat-input-element {
+            color: $white;
+            
+            &::placeholder {
+              color: rgba(255, 255, 255, 0.7);
+            }
+          }
+          
+          ::ng-deep .mat-icon {
+            color: rgba(255, 255, 255, 0.9);
+          }
+          
+          ::ng-deep .mat-select-value {
+            color: $white;
+          }
+          
+          ::ng-deep .mat-select-arrow {
+            color: rgba(255, 255, 255, 0.9);
+          }
+        }
+      }
+    }
+    
+    .table-body {
+      padding: 0;
+      
+      .users-table {
+        width: 100%;
+        
+        ::ng-deep .mat-header-cell {
+          background-color: #f1f5f9;
+          color: $primary-blue;
+          font-weight: 600;
+          font-size: 0.95rem;
+          padding: 20px 16px;
+          border-bottom: 2px solid #e2e8f0;
+        }
+        
+        ::ng-deep .mat-cell {
+          padding: 20px 16px;
+          font-size: 0.9rem;
+          border-bottom: 1px solid #f1f5f9;
+        }
+        
+        ::ng-deep .mat-row {
+          transition: background-color 0.2s ease;
+          
+          &:hover {
+            background-color: #f8fafc;
+          }
+        }
+        
+        .user-avatar {
+          img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+        
+        .user-info {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          
+          strong {
+            font-weight: 600;
+            color: #1e293b;
+          }
+          
+          small {
+            color: $gray-medium;
+            font-size: 0.8rem;
+          }
+        }
+        
+        .role-badge {
+          padding: 6px 12px;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          
+          &.admin {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: $danger-red;
+          }
+          
+          &.agent {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: $primary-blue;
+          }
+          
+          &.secretaire {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: $success-green;
+          }
+          
+          &.directeur {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: $warning-orange;
+          }
+        }
+        
+        .status-badge {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 12px;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          
+          mat-icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+          }
+          
+          &.active {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: $success-green;
+          }
+          
+          &.inactive {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: $danger-red;
+          }
+        }
+        
+        .action-buttons {
+          display: flex;
+          gap: 5px;
+          
+          button {
+            width: 36px;
+            height: 36px;
+            
+            mat-icon {
+              font-size: 18px;
+              width: 18px;
+              height: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .admin-users .users-table-card .table-header .header-actions {
+    .search-field,
+    .filter-field {
+      width: 200px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-users {
+    padding: 15px 0;
+    
+    .stats-card {
+      padding: 20px 15px !important;
+      
+      .card-content h3 {
+        font-size: 1.5rem !important;
+      }
+    }
+    
+    .users-table-card .table-header {
+      flex-direction: column;
+      align-items: stretch;
+      
+      .header-actions {
+        flex-direction: column;
+        
+        .search-field,
+        .filter-field {
+          width: 100%;
+        }
+      }
+    }
+    
+    .users-table {
+      ::ng-deep .mat-header-cell,
+      ::ng-deep .mat-cell {
+        padding: 15px 8px !important;
+        font-size: 0.8rem !important;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        gap: 2px;
+        
+        button {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
+}

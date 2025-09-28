@@ -1,0 +1,153 @@
+<section class="admin-dashboard">
+  <div class="container-fluid">
+    <!-- Header avec breadcrumb -->
+    <div class="dashboard-header">
+      <div class="block-header" *ngFor="let breadscrum of breadscrums">
+        <app-breadcrumb
+          [title]="breadscrum.title"
+          [items]="breadscrum.items"
+          [active_item]="breadscrum.active"
+        >
+        </app-breadcrumb>
+      </div>
+    </div>
+
+    <!-- Cartes récapitulatives -->
+    <div class="row stats-cards">
+      <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="stats-card users-card">
+          <div class="card-icon">
+            <mat-icon>people</mat-icon>
+          </div>
+          <div class="card-content">
+            <h3>{{ totalUsers }}</h3>
+            <p>Nombre d'utilisateurs</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="stats-card active-users-card">
+          <div class="card-icon">
+            <mat-icon>person_check</mat-icon>
+          </div>
+          <div class="card-content">
+            <h3>{{ activeUsers }}</h3>
+            <p>Utilisateurs actifs</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="stats-card inactive-users-card">
+          <div class="card-icon">
+            <mat-icon>person_off</mat-icon>
+          </div>
+          <div class="card-content">
+            <h3>{{ inactiveUsers }}</h3>
+            <p>Utilisateurs inactifs</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="stats-card roles-card">
+          <div class="card-icon">
+            <mat-icon>admin_panel_settings</mat-icon>
+          </div>
+          <div class="card-content">
+            <h3>{{ totalRoles }}</h3>
+            <p>Nombre de rôles</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphique des utilisateurs -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h4>Utilisateurs 2025</h4>
+          </div>
+          <div class="chart-body">
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="usersChartData"
+                [options]="usersChartOptions"
+                type="line">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tableau des utilisateurs récents -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="table-card">
+          <div class="table-header">
+            <h4>Utilisateurs récents</h4>
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>Rechercher</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher un utilisateur" #input>
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="table-body">
+            <table mat-table [dataSource]="usersDataSource" class="users-table">
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nom</th>
+                <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>Email</th>
+                <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef>Rôle</th>
+                <td mat-cell *matCellDef="let user">
+                  <span class="role-badge" [ngClass]="getRoleClass(user.role)">{{ user.role }}</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Statut</th>
+                <td mat-cell *matCellDef="let user">
+                  <span class="status-badge" [ngClass]="user.active ? 'active' : 'inactive'">
+                    {{ user.active ? 'Actif' : 'Inactif' }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let user">
+                  <button mat-icon-button color="primary" (click)="editUser(user)" matTooltip="Modifier">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button [color]="user.active ? 'warn' : 'accent'" 
+                          (click)="toggleUserStatus(user)" 
+                          [matTooltip]="user.active ? 'Désactiver' : 'Activer'">
+                    <mat-icon>{{ user.active ? 'person_off' : 'person_check' }}</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="usersDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: usersDisplayedColumns"></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

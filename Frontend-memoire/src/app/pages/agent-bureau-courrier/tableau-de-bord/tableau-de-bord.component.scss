@@ -1,0 +1,163 @@
+// Couleurs principales
+$primary-blue: #009DE5;
+$success-green: #28c76f;
+$warning-orange: #ff9800;
+$danger-red: #f44336;
+$gray: #9e9e9e;
+
+// Widgets statistiques
+.counter-box {
+  background: white;
+  border-radius: 12px;
+  padding: 25px 20px;
+  box-shadow: 0 4px 12px rgba(0, 157, 229, 0.1);
+  border-left: 4px solid $primary-blue;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 157, 229, 0.15);
+  }
+  
+  .text {
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  
+  h3 {
+    color: $primary-blue;
+    font-weight: 600;
+    margin-bottom: 15px;
+    
+    .material-icons {
+      font-size: 20px;
+      margin-left: 8px;
+      
+      &.col-green { color: $success-green; }
+      &.col-blue { color: $primary-blue; }
+      &.col-orange { color: $warning-orange; }
+      &.col-red { color: $danger-red; }
+    }
+  }
+}
+
+// Graphiques
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  
+  canvas {
+    max-height: 100%;
+  }
+}
+
+// Graphiques côte à côte
+.charts-row {
+  .col-lg-6 {
+    .card {
+      height: 100%;
+      
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.apex-chart-center {
+  margin-top: 10px;
+}
+
+// Cartes
+.card {
+  box-shadow: 0 4px 12px rgba(0, 157, 229, 0.08);
+  border-radius: 12px;
+  border: none;
+  overflow: hidden;
+  
+  .card-header {
+    background: linear-gradient(135deg, $primary-blue 0%, lighten($primary-blue, 10%) 100%);
+    border-bottom: none;
+    padding: 1.5rem 1.25rem;
+    
+    .card-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+    }
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+    background: white;
+  }
+}
+
+// Champ de recherche
+.search-field {
+  width: 300px;
+  
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+  
+  ::ng-deep .mat-form-field-outline {
+    color: $primary-blue;
+  }
+  
+  ::ng-deep .mat-form-field-outline-thick {
+    color: $primary-blue;
+  }
+  
+  ::ng-deep .mat-form-field-label {
+    color: $primary-blue;
+  }
+}
+
+// Tableau
+::ng-deep .mat-table {
+  .mat-header-cell {
+    background-color: lighten($primary-blue, 45%);
+    color: $primary-blue;
+    font-weight: 600;
+  }
+  
+  .mat-row:hover {
+    background-color: lighten($primary-blue, 48%);
+  }
+}
+
+// Boutons d'action
+::ng-deep .tbl-fav-edit {
+  color: $primary-blue;
+}
+
+::ng-deep .tbl-fav-delete {
+  color: $danger-red;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .chart-container {
+    height: 300px;
+  }
+  
+  .search-field {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+  
+  .counter-box {
+    margin-bottom: 20px;
+  }
+}

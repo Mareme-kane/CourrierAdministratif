@@ -1,0 +1,22 @@
+# Dépendances
+node_modules/
+npm-debug.log*
+
+# Build
+dist/
+.angular/
+
+# Fichiers système
+.git/
+.env
+.env.*
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Autres
+.DS_Store
+Thumbs.db
+e2e/

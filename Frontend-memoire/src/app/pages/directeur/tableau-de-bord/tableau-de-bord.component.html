@@ -1,0 +1,89 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums">
+      <app-breadcrumb
+        [title]="breadscrum.title"
+        [items]="breadscrum.items"
+        [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
+
+    <!-- Première ligne de graphiques -->
+    <div class="row">
+      <!-- Courbe des courriers entrants/sortants par année -->
+      <div class="col-lg-6 col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Courriers Entrants/Sortants par Année</h4>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="courrierAnnuelData"
+                [options]="courrierAnnuelOptions"
+                type="line">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Camembert des courriers du jour -->
+      <div class="col-lg-6 col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Répartition des Courriers du Jour</h4>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="courrierJourData"
+                [options]="courrierJourOptions"
+                type="pie">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deuxième ligne de graphiques -->
+    <div class="row">
+      <!-- Histogramme des courriers imputés du mois -->
+      <div class="col-lg-6 col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Courriers Imputés du Mois</h4>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="courrierImputeData"
+                [options]="courrierImputeOptions"
+                type="bar">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Courbe des courriers traités par année -->
+      <div class="col-lg-6 col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Courriers Traités par Année</h4>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="courrierTraiteData"
+                [options]="courrierTraiteOptions"
+                type="line">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

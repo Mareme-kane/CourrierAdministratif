@@ -1,0 +1,138 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h2 class="card-title">Mon profil</h2>
+              <div>
+                <button *ngIf="!isEditMode" mat-raised-button color="primary" (click)="toggleEditMode()">
+                  <i class="fas fa-edit mr-2"></i> Modifier
+                </button>
+                <button *ngIf="isEditMode" mat-raised-button color="primary" (click)="saveProfile()" class="mr-2">
+                  <i class="fas fa-save mr-2"></i> Enregistrer
+                </button>
+                <button *ngIf="isEditMode" mat-raised-button color="warn" (click)="cancelEdit()">
+                  <i class="fas fa-times mr-2"></i> Annuler
+                </button>
+              </div>
+            </div>
+
+            <form [formGroup]="profileForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Prénom</mat-label>
+                    <input matInput formControlName="firstName">
+                    <mat-error *ngIf="profileForm.get('firstName')?.hasError('required')">Le prénom est requis
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Nom</mat-label>
+                    <input matInput formControlName="lastName">
+                    <mat-error *ngIf="profileForm.get('lastName')?.hasError('required')">Le nom est requis</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" type="email">
+                    <mat-error *ngIf="profileForm.get('email')?.hasError('required')">L'email est requis</mat-error>
+                    <mat-error *ngIf="profileForm.get('email')?.hasError('email')">Format d'email invalide</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Téléphone</mat-label>
+                    <input matInput formControlName="phone">
+                    <mat-error *ngIf="profileForm.get('phone')?.hasError('required')">Le téléphone est requis
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 mb-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Adresse</mat-label>
+                    <input matInput formControlName="address">
+                    <mat-error *ngIf="profileForm.get('address')?.hasError('required')">L'adresse est requise
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Ville</mat-label>
+                    <input matInput formControlName="city">
+                    <mat-error *ngIf="profileForm.get('city')?.hasError('required')">La ville est requise</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Code postal</mat-label>
+                    <input matInput formControlName="postalCode">
+                    <mat-error *ngIf="profileForm.get('postalCode')?.hasError('required')">Le code postal est requis
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Date de naissance</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="birthDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="profileForm.get('birthDate')?.hasError('required')">La date de naissance est
+                      requise
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+
+            <div class="mt-4">
+              <h4>Paramètres de sécurité</h4>
+              <hr>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <h5 class="mb-0">Changer de mot de passe</h5>
+                  <p class="text-muted small">Dernière modification: 15/06/2025</p>
+                </div>
+                <button mat-stroked-button color="primary">
+                  <i class="fas fa-key mr-2"></i> Modifier
+                </button>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h5 class="mb-0">Authentification à deux facteurs</h5>
+                  <p class="text-muted small">Non activée</p>
+                </div>
+                <button mat-stroked-button color="primary">
+                  <i class="fas fa-shield-alt mr-2"></i> Activer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

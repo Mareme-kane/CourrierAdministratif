@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: dematerialisation-courrier-frontend
+    env: static
+    buildCommand: cd Frontend-memoire && npm ci && npm run build -- --configuration production
+    staticPublishPath: Frontend-memoire/dist/lorax
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

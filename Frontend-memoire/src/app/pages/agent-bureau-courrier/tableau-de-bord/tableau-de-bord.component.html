@@ -1,0 +1,170 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums">
+      <!-- breadcrumb -->
+      <app-breadcrumb
+        [title]="breadscrum.title"
+        [items]="breadscrum.items"
+        [active_item]="breadscrum.active"
+      >
+      </app-breadcrumb>
+    </div>
+    <!-- Widgets -->
+    <div class="row">
+      <div class="col-lg-3 col-sm-6">
+        <div class="counter-box text-center">
+          <div class="text font-17 m-b-5">Courriers Entrants</div>
+          <h3 class="m-b-10">
+            758
+            <i class="material-icons col-green">trending_up</i>
+          </h3>
+          <div class="apex-chart-center">
+            <apx-chart
+              [series]="smallBarChart.series"
+              [chart]="smallBarChart.chart"
+              [plotOptions]="smallBarChart.plotOptions"
+              [tooltip]="smallBarChart.tooltip"
+            >
+            </apx-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="counter-box text-center">
+          <div class="text font-17 m-b-5">Courriers Sortants</div>
+          <h3 class="m-b-10">
+            425
+            <i class="material-icons col-blue">trending_up</i>
+          </h3>
+          <div class="apex-chart-center">
+            <apx-chart
+              [series]="smallAreaChart.series"
+              [chart]="smallAreaChart.chart"
+              [stroke]="smallAreaChart.stroke"
+              [yaxis]="smallAreaChart.yaxis"
+              [fill]="smallAreaChart.fill"
+              [colors]="smallAreaChart.colors"
+            ></apx-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="counter-box text-center">
+          <div class="text font-17 m-b-5">Courriers Traités</div>
+          <h3 class="m-b-10">
+            356
+            <i class="material-icons col-green">trending_up</i>
+          </h3>
+          <div class="apex-chart-center">
+            <apx-chart
+              [series]="smallColumnChart.series"
+              [chart]="smallColumnChart.chart"
+              [plotOptions]="smallColumnChart.plotOptions"
+              [tooltip]="smallColumnChart.tooltip"
+            >
+            </apx-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="counter-box text-center">
+          <div class="text font-17 m-b-5">Courriers Archivés</div>
+          <h3 class="m-b-10">
+            89
+            <i class="material-icons col-orange">trending_flat</i>
+          </h3>
+          <div class="apex-chart-center">
+            <apx-chart
+              [series]="smallLineChart.series"
+              [chart]="smallLineChart.chart"
+              [stroke]="smallLineChart.stroke"
+              [tooltip]="smallLineChart.tooltip"
+            ></apx-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphiques Courriers année et Courriers du jour -->
+    <div class="row mt-4 charts-row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="chart-container" style="height: 400px;">
+              <canvas baseChart
+                [data]="courrierAnneeData"
+                [options]="courrierAnneeOptions"
+                type="bar">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="chart-container" style="height: 400px;">
+              <canvas baseChart
+                [data]="courrierJourData"
+                [options]="courrierJourOptions"
+                type="pie">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="card-title mb-0">Liste des courriers récents</h4>
+            <mat-form-field appearance="outline" class="search-field">
+              <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher" #input>
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="card-body">
+            <table mat-table [dataSource]="dataSource" class="w-100">
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef>No.</th>
+                <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nom</th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef>Type</th>
+                <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef>Statut</th>
+                <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                  <button mat-icon-button (click)="$event.stopPropagation()">
+                    <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                  </button>
+                  <button mat-icon-button (click)="$event.stopPropagation()">
+                    <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

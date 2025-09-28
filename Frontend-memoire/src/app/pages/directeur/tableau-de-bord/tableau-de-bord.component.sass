@@ -1,0 +1,56 @@
+// Couleurs principales
+$primary-blue: #009DE5
+$success-green: #28c76f
+$warning-orange: #ff9800
+$danger-red: #f44336
+$purple: #9c27b0
+
+// Conteneur des graphiques
+.chart-container
+  position: relative
+  height: 350px
+  width: 100%
+  padding: 10px
+
+// Cartes des graphiques
+.card
+  box-shadow: 0 4px 12px rgba(0, 157, 229, 0.08)
+  border-radius: 12px
+  border: none
+  overflow: hidden
+  margin-bottom: 20px
+  
+  .card-header
+    background: linear-gradient(135deg, $primary-blue 0%, lighten($primary-blue, 10%) 100%)
+    border-bottom: none
+    padding: 1.5rem 1.25rem
+    
+    .card-title
+      margin: 0
+      font-size: 1.2rem
+      font-weight: 600
+      color: white
+      text-align: center
+  
+  .card-body
+    padding: 1.5rem
+    background: white
+
+// Responsive design
+@media (max-width: 768px)
+  .chart-container
+    height: 300px
+    padding: 5px
+  
+  .card
+    margin-bottom: 15px
+    
+    .card-header
+      padding: 1rem
+      
+      .card-title
+        font-size: 1rem
+
+@media (max-width: 576px)
+  .chart-container
+    height: 250px
