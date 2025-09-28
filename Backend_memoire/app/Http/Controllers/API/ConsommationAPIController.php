@@ -41,10 +41,21 @@ class ConsommationAPIController extends Controller
                             'password' => Hash::make('password123')
                         ]
                     );
-                    
+
                     $savedUsers[] = $user;
                 }
             }
+
+            // Affecter les rôles de manière aléatoire
+            $this->assignRandomRoles($savedUsers);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => count($savedUsers) . ' utilisateurs synchronisés',
+                'api_data_structure' => array_keys($apiData),
+                'first_user_data' => isset($apiData[0]) ? $apiData[0] : null,
+                'saved_users' => count($savedUsers)
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -52,4 +63,54 @@ class ConsommationAPIController extends Controller
             ], 500);
         }
     }
+
+    public function assignRolesToAllUsers()
+    {
+        try {
+            $usersWithoutRoles = User::doesntHave('roles')->get();
+
+            if ($usersWithoutRoles->isEmpty()) {
+                return response()->json([
+                    'status' => 'info',
+                    'message' => 'Tous les utilisateurs ont déjà des rôles assignés'
+                ]);
+            }
+
+            $this->assignRandomRoles($usersWithoutRoles->toArray());
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Rôles assignés à ' . $usersWithoutRoles->count() . ' utilisateurs'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    private function assignRandomRoles($users)
+    {
+        $roles = ['DIRECTEUR', 'SECRETAIRE', 'AGENT_BUREAU_COURRIER'];
+        $adminAssigned = false;
+
+        foreach ($users as $user) {
+            if (!$adminAssigned) {
+                $adminRole = Role::where('nom', 'ADMIN')->first();
+                if ($adminRole) {
+                    $user->roles()->syncWithoutDetaching([$adminRole->id]);
+                    $adminAssigned = true;
+                    continue;
+                }
+            }
+
+            $randomRole = $roles[array_rand($roles)];
+            $role = Role::where('nom', $randomRole)->first();
+
+            if ($role) {
+                $user->roles()->syncWithoutDetaching([$role->id]);
+            }
+ }
+}
 }
