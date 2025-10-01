@@ -1,0 +1,153 @@
+// Dialog styles
+.dialog-header
+  padding: 16px 24px
+  border-bottom: 1px solid #e0e0e0
+  background: #009DE5
+  color: white
+  
+  .dialog-title
+    margin: 0
+    font-size: 1.25rem
+    font-weight: 500
+
+.dialog-content
+  padding: 24px
+  max-height: 70vh
+  overflow-y: auto
+
+// Sections de détails
+.detail-section
+  .section-title
+    margin: 0 0 16px 0
+    font-size: 1.1rem
+    font-weight: 500
+    color: #424242
+    border-bottom: 1px solid #e0e0e0
+    padding-bottom: 8px
+
+// Grille de détails
+.detail-grid
+  .detail-item
+    label
+      display: block
+      font-size: 0.85rem
+      font-weight: 600
+      color: #666
+      text-transform: uppercase
+      margin-bottom: 4px
+      letter-spacing: 0.5px
+    
+    .value
+      display: block
+      font-size: 1rem
+      color: #424242
+      font-weight: 500
+      padding: 8px 12px
+      background-color: #f8f9fa
+      border-radius: 6px
+      border-left: 3px solid #009DE5
+
+// Badges de confidentialité
+.confidentiality-badge
+  display: inline-block
+  padding: 6px 12px
+  border-radius: 16px
+  font-size: 12px
+  font-weight: 600
+  text-transform: uppercase
+  
+  &.confidentiel
+    background: #dc3545
+    color: white
+    
+  &.ordinaire
+    background: #17a2b8
+    color: white
+
+// Badges de statut
+.status-badge
+  display: inline-block
+  padding: 6px 12px
+  border-radius: 16px
+  font-size: 12px
+  font-weight: 600
+  text-transform: uppercase
+  
+  &.badge-primary
+    background: #007bff
+    color: white
+    
+  &.badge-success
+    background: #28a745
+    color: white
+    
+  &.badge-warning
+    background: #ffc107
+    color: #212529
+    
+  &.badge-danger
+    background: #dc3545
+    color: white
+    
+  &.badge-info
+    background: #17a2b8
+    color: white
+    
+  &.badge-secondary
+    background: #6c757d
+    color: white
+
+// Fichiers joints
+.file-attachment
+  padding: 12px 16px
+  background-color: #f8f9fa
+  border-radius: 8px
+  border-left: 3px solid #009DE5
+  
+  .file-details
+    display: flex
+    flex-direction: column
+  
+  .file-name
+    font-weight: 500
+    color: #424242
+    font-size: 0.95rem
+  
+  .file-info
+    font-size: 0.8rem
+    color: #666
+
+// Dialog actions
+mat-dialog-actions
+  border-top: 1px solid #e0e0e0
+  padding: 16px 24px
+  
+  button
+    mat-icon
+      font-size: 18px
+      width: 18px
+      height: 18px
+
+// Responsive design
+@media (max-width: 768px)
+  .dialog-content
+    padding: 16px
+    max-height: 80vh
+
+  .dialog-header
+    padding: 12px 16px
+
+  mat-dialog-actions
+    padding: 12px 16px
+
+// Animation
+.courrier-details
+  animation: fadeInUp 0.3s ease-out
+  
+@keyframes fadeInUp
+  from
+    opacity: 0
+    transform: translateY(20px)
+  to
+    opacity: 1
+    transform: translateY(0)

@@ -1,6 +1,7 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
 import { AdvanceTableEntrantService } from '../../liste-courrier-entrant.service';
+import { HttpClient } from '@angular/common/http';
 import {
   UntypedFormControl,
   Validators,
@@ -94,7 +95,7 @@ export class FormDialogEntrantComponent {
     return `REF-${year}${month}${day}-${random}`;
   }
   submit() {
-    // emppty stuff
+    this.advanceTableService.addAdvanceTable(this.advanceTableForm.value);
   }
   onNoClick(): void {
     this.dialogRef.close();
@@ -181,45 +182,33 @@ export class FormDialogEntrantComponent {
   }
 
   public confirmAdd(): void {
-    console.log('Form submission started');
-    console.log('Form valid:', this.advanceTableForm.valid);
-    
     if (!this.advanceTableForm.valid) {
-      console.log('Form is invalid, marking all fields as touched');
       this.advanceTableForm.markAllAsTouched();
       return;
     }
     
     const formData = this.advanceTableForm.getRawValue();
-    console.log('Form data:', formData);
     
     const courrierData = new AdvanceTable({
       id: formData.id || 0,
       courrier_id: formData.courrier_id || 0,
       expediteur: formData.expediteur,
       dateArrivee: formData.dateArrivee,
-      created_at: this.advanceTable.created_at || new Date().toISOString(),
-      updated_at: new Date().toISOString(),
       courrier: {
-        id: this.advanceTable.courrier?.id || 0,
         reference: formData.reference,
         objet: formData.objet,
         niveauConfidentiel: formData.niveauConfidentiel,
-        statutCourrier: formData.statutCourrier || 'EN_COURS',
         fichier_joint: formData.fichier_joint || '',
-        created_at: this.advanceTable.courrier?.created_at || new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        nbre_fichiers: formData.nbreFichiers
       }
     });
     
-    console.log('Courrier data to save:', courrierData);
-    
     if (this.action === 'edit') {
-      console.log('Updating courrier');
       this.advanceTableService.updateAdvanceTable(courrierData);
     } else {
-      console.log('Adding new courrier');
       this.advanceTableService.addAdvanceTable(courrierData);
     }
+    
+    this.dialogRef.close();
   }
 }

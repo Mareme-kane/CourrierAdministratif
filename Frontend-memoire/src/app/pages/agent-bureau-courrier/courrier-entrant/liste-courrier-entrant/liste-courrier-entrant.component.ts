@@ -11,6 +11,8 @@ import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormDialogEntrantComponent } from './dialogs/form-dialog/form-dialog.component';
 import { DeleteDialogEntrantComponent } from './dialogs/delete/delete.component';
+import { ViewDialogComponent } from './dialogs/view-dialog/view-dialog.component';
+import Swal from 'sweetalert2';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -95,12 +97,11 @@ export class AdvanceTableEntrantComponent
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(FormDialogEntrantComponent, {
-      data: {
-        advanceTable: row,
-        action: 'view'
-      },
-      direction: tempDirection
+    const dialogRef = this.dialog.open(ViewDialogComponent, {
+      data: row,
+      direction: tempDirection,
+      width: '800px',
+      maxWidth: '90vw'
     });
   }
   
@@ -133,27 +134,41 @@ export class AdvanceTableEntrantComponent
     });
   }
   deleteItem(row) {
-    this.id = row.id;
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(DeleteDialogEntrantComponent, {
-      data: row,
-      direction: tempDirection
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // Recharger les données depuis l'API
-        this.loadData();
-        this.showNotification(
-          'snackbar-danger',
-          'Courrier supprimé avec succès !',
-          'bottom',
-          'center'
-        );
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: `Voulez-vous vraiment supprimer le courrier "${row.courrier.objet}" ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Oui, supprimer !',
+      cancelButtonText: 'Annuler',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.id = row.id;
+        let tempDirection;
+        if (localStorage.getItem('isRtl') === 'true') {
+          tempDirection = 'rtl';
+        } else {
+          tempDirection = 'ltr';
+        }
+        const dialogRef = this.dialog.open(DeleteDialogEntrantComponent, {
+          data: row,
+          direction: tempDirection
+        });
+        this.subs.sink = dialogRef.afterClosed().subscribe((deleteResult) => {
+          if (deleteResult === 1) {
+            this.loadData();
+            Swal.fire({
+              title: 'Supprimé !',
+              text: 'Le courrier a été supprimé avec succès.',
+              icon: 'success',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          }
+        });
       }
     });
   }
@@ -252,6 +267,20 @@ export class AdvanceTableEntrantComponent
       case 'VALIDE': return 'Validé';
       case 'NON_VALIDE': return 'Non validé';
       default: return status;
+    }
+  }
+
+  getStatusIcon(status: string): string {
+    switch (status) {
+      case 'EN_COURS': return 'hourglass_empty';
+      case 'EN_TRAITEMENT': return 'sync';
+      case 'TRAITE': return 'check_circle';
+      case 'ARCHIVE': return 'archive';
+      case 'IMPUTE': return 'assignment';
+      case 'ENVOYE': return 'send';
+      case 'VALIDE': return 'verified';
+      case 'NON_VALIDE': return 'cancel';
+      default: return 'help';
     }
   }
 

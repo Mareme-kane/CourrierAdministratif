@@ -1,0 +1,76 @@
+<div class="dialog-header">
+  <h1 mat-dialog-title class="dialog-title">
+    Détails du courrier
+  </h1>
+</div>
+
+<mat-dialog-content class="dialog-content">
+  <div class="courrier-details" fxLayout="column" fxLayoutGap="20px">
+    
+    <!-- Section Informations principales -->
+    <div class="detail-section" fxLayout="column" fxLayoutGap="12px">
+      <h3 class="section-title">Informations principales</h3>
+      
+      <div class="detail-grid" fxLayout="row wrap" fxLayoutGap="16px">
+        <div class="detail-item" fxFlex="48" fxFlex.lt-md="100">
+          <label>Référence</label>
+          <span class="value">{{ data.courrier.reference }}</span>
+        </div>
+        
+        <div class="detail-item" fxFlex="48" fxFlex.lt-md="100">
+          <label>Date d'arrivée</label>
+          <span class="value">{{ data.dateArrivee | date: 'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        
+        <div class="detail-item" fxFlex="48" fxFlex.lt-md="100">
+          <label>Expéditeur</label>
+          <span class="value">{{ data.expediteur }}</span>
+        </div>
+        
+        <div class="detail-item" fxFlex="48" fxFlex.lt-md="100">
+          <label>Confidentialité</label>
+          <span class="confidentiality-badge" [class.confidentiel]="data.courrier.niveauConfidentiel === 'CONFIDENTIEL'" [class.ordinaire]="data.courrier.niveauConfidentiel !== 'CONFIDENTIEL'">
+            {{ data.courrier.niveauConfidentiel === 'CONFIDENTIEL' ? 'Confidentiel' : 'Ordinaire' }}
+          </span>
+        </div>
+        
+        <div class="detail-item" fxFlex="100">
+          <label>Objet</label>
+          <span class="value">{{ data.courrier.objet }}</span>
+        </div>
+        
+        <div class="detail-item" fxFlex="48" fxFlex.lt-md="100">
+          <label>Statut</label>
+          <span class="status-badge" [class]="getStatusClass(data.courrier.statutCourrier)">
+            {{ getStatusLabel(data.courrier.statutCourrier) }}
+          </span>
+        </div>
+        
+        <div class="detail-item" fxFlex="48" fxFlex.lt-md="100">
+          <label>Nombre de fichiers</label>
+          <span class="value">{{ data.nbre_fichiers || 0 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Fichiers joints -->
+    <div class="detail-section" *ngIf="data.fichier_joint" fxLayout="column" fxLayoutGap="12px">
+      <h3 class="section-title">
+        Fichiers joints
+      </h3>
+      
+      <div class="file-attachment">
+        <div class="file-details">
+          <span class="file-name">{{ data.fichier_joint }}</span>
+          <span class="file-info">Fichier joint</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="dialogRef.close()">
+    Fermer
+  </button>
+</mat-dialog-actions>

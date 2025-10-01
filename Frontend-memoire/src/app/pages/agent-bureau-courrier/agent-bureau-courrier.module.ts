@@ -14,6 +14,7 @@ import { AgentBureauCourrierRoutingModule } from "./agent-bureau-courrier-routin
 import { AdvanceTableEntrantComponent } from './courrier-entrant/liste-courrier-entrant/liste-courrier-entrant.component';
 import { FormDialogEntrantComponent } from './courrier-entrant/liste-courrier-entrant/dialogs/form-dialog/form-dialog.component';
 import { DeleteDialogEntrantComponent } from './courrier-entrant/liste-courrier-entrant/dialogs/delete/delete.component';
+import { ViewDialogComponent } from './courrier-entrant/liste-courrier-entrant/dialogs/view-dialog/view-dialog.component';
 import { AdvanceTableEntrantService } from './courrier-entrant/liste-courrier-entrant/liste-courrier-entrant.service';
 
 // Import advance-table components for courrier-sortant
@@ -70,6 +71,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     AdvanceTableEntrantComponent,
     FormDialogEntrantComponent,
     DeleteDialogEntrantComponent,
+    ViewDialogComponent,
     AdvanceTableSortantComponent,
     FormDialogSortantComponent,
     DeleteDialogSortantComponent,

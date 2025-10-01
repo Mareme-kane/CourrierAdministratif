@@ -52,7 +52,8 @@
             <ng-container matColumnDef="niveauConfidentiel">
               <mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 120px;">Confidentialité</mat-header-cell>
               <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)" style="white-space: nowrap; min-width: 120px;">
-                <span class="badge" [ngClass]="row.courrier.niveauConfidentiel === 'CONFIDENTIEL' ? 'badge-warning' : 'badge-info'">
+                <span class="confidentiality-badge" [ngClass]="row.courrier.niveauConfidentiel === 'CONFIDENTIEL' ? 'confidentiel' : 'ordinaire'">
+                  <mat-icon class="badge-icon">{{ row.courrier.niveauConfidentiel === 'CONFIDENTIEL' ? 'lock' : 'public' }}</mat-icon>
                   {{ row.courrier.niveauConfidentiel === 'CONFIDENTIEL' ? 'Confidentiel' : 'Ordinaire' }}
                 </span>
               </mat-cell>
@@ -60,27 +61,30 @@
             <ng-container matColumnDef="statutCourrier">
               <mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 100px;">Statut</mat-header-cell>
               <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)" style="white-space: nowrap; min-width: 100px;">
-                <span class="badge" [ngClass]="getStatusClass(row.courrier.statutCourrier)">
+                <span class="status-badge" [ngClass]="getStatusClass(row.courrier.statutCourrier)">
+                  <mat-icon class="badge-icon">{{ getStatusIcon(row.courrier.statutCourrier) }}</mat-icon>
                   {{ getStatusLabel(row.courrier.statutCourrier) }}
                 </span>
               </mat-cell>
             </ng-container>
             <!-- actions -->
             <ng-container matColumnDef="actions">
-              <mat-header-cell class="pr-0" *matHeaderCellDef style="min-width: 120px; text-align: center;">Actions</mat-header-cell>
-              <mat-cell *matCellDef="let row; let i=index;" class="pr-0" style="text-align: center; min-width: 120px;">
-                <button mat-icon-button (click)="$event.stopPropagation()" (click)="viewItem(row)"
-                        class="tbl-action-btn">
-                  <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-view'"></app-feather-icons>
-                </button>
-                <button mat-icon-button (click)="$event.stopPropagation()" (click)="editCall(row)"
-                        class="tbl-action-btn">
-                  <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
-                </button>
-                <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteItem(row)"
-                        class="tbl-action-btn">
-                  <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
-                </button>
+              <mat-header-cell class="pr-0" *matHeaderCellDef style="min-width: 140px; text-align: center;">Actions</mat-header-cell>
+              <mat-cell *matCellDef="let row; let i=index;" class="pr-0" style="text-align: center; min-width: 140px;">
+                <div class="action-buttons">
+                  <button mat-icon-button (click)="$event.stopPropagation()" (click)="viewItem(row)"
+                          class="action-btn view-btn" matTooltip="Visualiser">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="$event.stopPropagation()" (click)="editCall(row)"
+                          class="action-btn edit-btn" matTooltip="Modifier">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteItem(row)"
+                          class="action-btn delete-btn" matTooltip="Supprimer">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
               </mat-cell>
             </ng-container>
 
